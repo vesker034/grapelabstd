@@ -1,0 +1,108 @@
+/* Отступы секции */
+.tech-stack-section {
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+    margin-bottom: 5rem;
+}
+
+/* Фон-поверхность под карточками */
+.tech-stack-surface {
+    border-radius: 2rem;
+    padding-top: 4rem;
+    padding-bottom: 4.5rem;
+
+    /* равномерные отступы слева и справа, чтобы крайние карточки не липли к краю */
+    padding-inline: 2rem;
+
+    background: rgba(15, 8, 36, 0.6);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* Светлая тема */
+[data-bs-theme="light"] .tech-stack-surface {
+    background: var(--clr-card-light);
+    box-shadow: 0 24px 60px rgba(15, 8, 36, 0.10);
+}
+
+/* Заголовок блока */
+.tech-stack-section .gradient-text.hero-title {
+    background: linear-gradient(90deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Подзаголовок */
+.tech-stack-subtitle {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Карточки --- */
+.tech-card {
+    padding: 2.5rem 2rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 420px;
+    /* Все стеклянные стили берутся из .glass-card (global.css) */
+}
+
+/* Заголовок карточки */
+.tech-card h5 {
+    color: var(--bs-heading-color);
+    margin: 0 0 1.75rem 0;
+}
+
+/* Теги технологий */
+.tech-tags {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: center;
+    column-gap: 0.8rem;
+    row-gap: 0.6rem;
+    justify-items: center; /* ← добавили: бейджи больше не растягиваются на всю ширину колонки */
+}
+
+/* Тёмная тема — фиолетовые бейджи */
+.tech-tags span {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+    background-color: color-mix(in srgb, var(--bs-primary) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bs-primary) 35%, transparent);
+    color: var(--bs-heading-color);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover */
+.tech-tags span:hover {
+    background-color: var(--bs-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Светлая тема — голубые бейджи */
+[data-bs-theme="light"] .tech-tags span {
+    background-color: color-mix(in srgb, var(--bs-info) 20%, white);
+    border: 1px solid color-mix(in srgb, var(--bs-info) 45%, white);
+    color: var(--bs-info);
+}
+
+/* Hover — насыщенный голубой */
+[data-bs-theme="light"] .tech-tags span:hover {
+    background-color: var(--bs-info);
+    color: #ffffff;
+    transform: translateY(-2px);
+}

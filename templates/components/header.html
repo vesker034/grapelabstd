@@ -1,0 +1,38 @@
+{% load static %}
+<header class="navbar navbar-expand-lg fixed-top main-header" id="mainHeader">
+    <div class="container">
+        <!-- Логотип -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'index' %}">
+             <img src="{% static 'images/logo.png' %}" alt="GrapeLabStd Logo" width="32" height="32"> 
+             <span class="logo-text">GrapeLabStd</span>
+        </a>
+
+        <!-- Кнопка для мобильного меню -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Навигация -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
+                <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'index' %}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'event' in request.path %}active{% endif %}" href="{% url 'event' %}">Мероприятия</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'directions' in request.path %}active{% endif %}" href="{% url 'directions' %}">Направления</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'contacts' in request.path %}active{% endif %}" href="{% url 'contacts' %}">Контакты</a></li>
+                <li class="nav-item"><a class="nav-link {% if 'VR-tour' in request.path %}active{% endif %}" href="{% url 'VR_tour' %}">VR Тур</a></li>
+
+                <!-- Переключатель тем -->
+                <li class="nav-item ms-lg-2">
+                     <span id="theme-switcher"
+                           class="theme-switcher-btn">
+                       <i class="bi bi-sun-fill" id="theme-icon"></i>
+                         <!-- Bootstrap Icons -->
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

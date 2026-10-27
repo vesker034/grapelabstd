@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Наши направления | GrapeLabStd{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{% static 'css/directions_header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/directions_cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tech_stack.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'components/directions_header.html' %}
+    {% include 'components/directions_cards.html' %}
+    {% include 'components/tech_stack.html' %}
+{% endblock %}

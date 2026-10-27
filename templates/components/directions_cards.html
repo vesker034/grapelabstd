@@ -1,0 +1,59 @@
+{% load static %}
+
+<section class="directions-section py-5">
+    <div class="container">
+        <div class="row g-4">
+
+            {# ОДНА карточка на КАЖДОЕ направление из directions_view #}
+            {% for direction in directions %}
+                <div class="col-md-6">
+                    <div class="glass-card h-100 p-4 d-flex flex-column">
+                        <div class="d-flex align-items-center mb-4">
+
+                            {# иконка из ImageField #}
+                            {% if direction.icon %}
+                                <img src="{{ direction.icon.url }}"
+                                     alt="{{ direction.title }}"
+                                     class="me-3" width="56" height="56">
+                            {% endif %}
+
+                            <h3 class="h5 fw-bold mb-0">
+                                {{ direction.title }}
+                            </h3>
+                        </div>
+
+                        {# краткий текст под заголовком #}
+                        {% if direction.short_text %}
+                            <p class="text-body-secondary mb-4">
+                                {{ direction.short_text }}
+                            </p>
+                        {% endif %}
+
+                        {% if direction.full_text_list %}
+                            <ul class="directions-list mb-4">
+                                {% for item in direction.full_text_list %}
+                                    <li class="directions-list-item">
+                                        {{ item }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <div class="mt-auto pt-3 border-top">
+                            <a href="#"
+                               class="btn btn-gradient directions-join-btn fw-semibold">
+                                Присоединиться
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-center text-body-secondary">
+                        Направления пока не добавлены. Обратитесь к администратору.
+                    </p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>

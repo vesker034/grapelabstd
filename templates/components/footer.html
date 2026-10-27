@@ -1,0 +1,29 @@
+{% load static %}
+<footer class="main-footer">
+    <div class="container text-center">
+        <div class="mb-4 d-flex justify-content-center align-items-center flex-column">
+            <div class="d-flex align-items-center mb-2">
+                <img src="{% static 'images/logo.png' %}" alt="GrapeLabStd Logo" width="40" height="40">
+                <span class="logo-text-footer ms-2">GrapeLabStd</span>
+            </div>
+            {% if footer_content.additional %}
+                <p class="mt-2 mb-0">{{ footer_content.additional }}</p>
+            {% else %}
+                <p class="mt-2 mb-0">Сообщество студентов, создающих будущее</p>
+            {% endif %}
+        </div>
+
+        {% if contacts_info.social_links %}
+        <div class="social-links d-flex justify-content-center gap-4 mb-4">
+            {% for name, url in contacts_info.social_links.items %}
+                <a href="{{ url }}" target="_blank" rel="noopener noreferrer" title="{{ name|capfirst }}">
+                    <img src="{% static 'images/icons/'|add:name|add:'.png' %}" alt="{{ name|capfirst }}" width="32" height="32">
+                </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Статичный копирайт с автоматическим обновлением года -->
+        <p class="small mb-0">&copy; {% now "Y" %} GrapeLab Student. Все права защищены.</p>
+    </div>
+</footer>

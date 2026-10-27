@@ -1,0 +1,34 @@
+<!-- Компонент "Таймлайн" -->
+<section class="container py-5">
+    <div class="text-center mb-5 animate-on-scroll">
+        <h2 class="display-5 fw-bold"><span class="gradient-text">Наша деятельность</span></h2>
+        <p class="lead"><span class="text-secondary">Мы не сидим на месте. Узнай о наших ближайших событиях.</span></p>
+    </div>
+
+    <div class="timeline col-lg-8 mx-auto">
+        {% for activity in main_activities %}
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content glass-card p-4">
+                    <h4 class="fw-bold fs-5 mb-1">{{ activity.event.title }}</h4>
+                    {# Используем специальный метод для красивой даты #}
+                    <p class="text-secondary mb-0">{{ activity.event.get_formatted_date }}. {{ activity.event.description|truncatewords:10 }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <div class="timeline-item animate-on-scroll">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content glass-card p-4 text-center">
+                    <p class="text-secondary mb-0">Скоро здесь появятся анонсы наших мероприятий.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Кнопка "Все мероприятия" -->
+    <div class="text-center mt-5 animate-on-scroll">
+        <a href="{% url 'event' %}" class="btn btn-gradient fw-bold px-4 py-3">
+            Все мероприятия <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>

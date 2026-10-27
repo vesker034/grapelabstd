@@ -1,0 +1,150 @@
+{% load static %}
+<!-- События Page Content -->
+<section class="events-section"
+         style="padding-top: 100px; padding-bottom: 60px;">
+    <div class="container">
+        <!-- Tabs Navigation -->
+        <div class="events-tabs-container mb-4">
+            <ul class="nav nav-pills mb-3" id="events-tabs"
+                role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="upcoming-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#upcoming" type="button"
+                            role="tab"
+                            aria-controls="upcoming"
+                            aria-selected="true">
+                        Предстоящие
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="past-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#past" type="button"
+                            role="tab"
+                            aria-controls="past"
+                            aria-selected="false">
+                        Прошедшие
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="calendar-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#calendar" type="button"
+                            role="tab"
+                            aria-controls="calendar"
+                            aria-selected="false">
+                        Календарь
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tabs Content -->
+            <div class="tab-content" id="events-tabContent">
+                <!-- Upcoming Events Tab -->
+                <div class="tab-pane fade show active" id="upcoming"
+                     role="tabpanel"
+                     aria-labelledby="upcoming-tab" tabindex="0">
+                    <h2 class="mb-4 gradient-text">Ближайшие события</h2>
+
+                    {% if upcoming_events %}
+                        <div class="row g-4">
+                            {% for event in upcoming_events %}
+                                {% include 'components/event_card.html' %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Пагинация для предстоящих событий -->
+                        {% include 'components/paginator.html' with page_obj=upcoming_events param_name='upcoming_page' %}
+                    {% else %}
+                        <!-- Пустое состояние для предстоящих событий -->
+                        <div class="events-empty-state glass-card p-5 text-center">
+                            <div class="empty-state-icon mb-4">
+                                <i class="bi bi-calendar-plus icon-gradient" style="font-size: 4rem;"></i>
+                            </div>
+                            <h3 class="gradient-text mb-3">Скоро здесь появятся новые события</h3>
+                            <p class="text-muted mb-0">
+                                Следите за обновлениями! Мы готовим интересные мероприятия для вас.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Past Events Tab -->
+                <div class="tab-pane fade" id="past" role="tabpanel"
+                     aria-labelledby="past-tab" tabindex="0">
+                    <h2 class="mb-4 gradient-text">Прошедшие события</h2>
+
+                    {% if past_events %}
+                        <div class="row g-4">
+                            {% for event in past_events %}
+                                {% include 'components/event_card.html' %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Пагинация для прошедших событий -->
+                        {% include 'components/paginator.html' with page_obj=past_events param_name='past_page' %}
+                    {% else %}
+                        <!-- Пустое состояние для прошедших событий -->
+                        <div class="events-empty-state glass-card p-5 text-center">
+                            <div class="empty-state-icon mb-4">
+                                <i class="bi bi-clock-history icon-gradient" style="font-size: 4rem;"></i>
+                            </div>
+                            <h3 class="gradient-text mb-3">Пока нет прошедших событий</h3>
+                            <p class="text-muted mb-0">
+                                История событий появится здесь после проведения мероприятий.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Calendar Tab -->
+                <div class="tab-pane fade" id="calendar"
+                     role="tabpanel"
+                     aria-labelledby="calendar-tab" tabindex="0">
+                    <h2 class="mb-4 gradient-text">Календарь событий</h2>
+                    {% include 'components/calendar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Модальное окно для деталей события -->
+<div class="modal fade event-modal" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">
+                    <i class="bi bi-calendar-event"></i>
+                    <span id="eventModalTitle"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-modal-info">
+                    <div class="event-modal-info-item">
+                        <i class="bi bi-calendar-check"></i>
+                        <span id="eventModalDate"></span>
+                    </div>
+                    <div class="event-modal-info-item">
+                        <i class="bi bi-clock"></i>
+                        <span id="eventModalTime"></span>
+                    </div>
+                    <div class="event-modal-info-item" id="eventModalLocationContainer">
+                        <i class="bi bi-geo-alt"></i>
+                        <span id="eventModalLocation"></span>
+                    </div>
+                    <div class="event-modal-info-item">
+                        <i class="bi bi-info-circle"></i>
+                        <span id="eventModalStatus"></span>
+                    </div>
+                </div>
+                <div class="event-modal-description" id="eventModalDescription"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gradient" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

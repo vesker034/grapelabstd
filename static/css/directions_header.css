@@ -1,0 +1,52 @@
+/* directions_header.css */
+/* Обложка "Наши направления", основана на global.css */
+
+/* Общая геометрия секции — компактнее, чем hero на главной */
+.directions-hero.hero-section {
+    min-height: 45vh;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Светлая тема: базовый фон из global.css +
+   мягкие радиальные пятна, собранные из accent-цветов */
+[data-bs-theme="light"] .directions-hero.hero-section {
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            color-mix(in srgb, var(--clr-accent2-light) 18%, transparent) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 100% 50%,
+            color-mix(in srgb, var(--clr-accent1-light) 16%, transparent) 0%,
+            transparent 60%
+        ),
+        var(--gradient-background-light);
+}
+
+/* Тёмная тема: тот же градиент, что и у страницы */
+[data-bs-theme="dark"] .directions-hero.hero-section {
+    background: var(--gradient-background-dark);
+}
+
+/* Отступы для заголовка и текста */
+.directions-hero .hero-title {
+    margin-bottom: 1.5rem;
+}
+
+/* Подзаголовок по центру, читаемая ширина */
+.directions-hero .hero-subtitle {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.directions-hero.hero-section {
+    margin-bottom: 5rem; /
+}

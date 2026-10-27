@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    image: grapelabstd:dev
+    environment:
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-True}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-django-insecure-dev-only-change-me}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - DJANGO_CSRF_TRUSTED_ORIGINS=${DJANGO_CSRF_TRUSTED_ORIGINS:-}
+    volumes:
+      - .:/app
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}VR Тур - GrapeLabStd{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vr_tour.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Плавающие кружки на фоне -->
+<div class="floating-elements-container">
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+</div>
+
+<div style="padding-top: 8rem; padding-bottom: 3rem;">
+    {% include 'components/lab_zones_cards.html' %}
+</div>
+
+<div style="padding-top: 3rem; padding-bottom: 8rem;">
+    <!-- Включаем компонент VR-тура -->
+    {% include 'components/vr_tour.html' %}
+</div>
+
+<script>
+// Активируем кнопку VR Тур в навигации
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.textContent.trim() === 'VR Тур') {
+            link.classList.add('active');
+        }
+    });
+});
+</script>
+
+{% endblock %}

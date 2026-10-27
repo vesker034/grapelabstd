@@ -1,0 +1,44 @@
+# Виртуальное окружение
+.venv/
+venv/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# База данных SQLite (если используется для тестов)
+db.sqlite3
+
+# Настройки IDE
+.idea/
+.vscode/
+
+# Собранные статические файлы и медиа
+staticfiles/
+media/
+
+# Файлы с секретными данными
+.env
+.env.*
+!.env.example# Local secrets and databases
+.env*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.pem
+*.key
+*.p12
+*.pfx
+# Local tooling and generated output
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.next/
+dist/
+build/
+coverage/
+*.tsbuildinfo

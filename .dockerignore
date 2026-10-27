@@ -1,0 +1,50 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv
+venv
+ENV
+env
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+staticfiles
+media
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+!README.md
+
+# CI/CD
+.gitlab-ci.yml
+.github
+
+# Misc
+.DS_Store
+Thumbs.db

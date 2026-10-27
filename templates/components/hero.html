@@ -1,0 +1,181 @@
+{% load static %}
+<!-- Компонент обложки: 3D-шар + CSS-пузыри -->
+<section class="hero-section">
+    <!-- 1. Canvas для 3D-сферы (стили в global.css) -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- 2. Плавающие CSS-пузыри -->
+    <div class="floating-elements-container" aria-hidden="true">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- 3. Контент обложки -->
+    <div class="container hero-content px-3">
+        <h1 class="hero-title fw-bolder">
+            GrapeLab Student<br><span class="gradient-text">IT Laboratory</span>
+        </h1>
+        <p class="hero-subtitle mt-4">
+            Инновационное сообщество студентов, создающих будущее технологий. Присоединяйся к нашему движению!
+        </p>
+        <!-- Кнопка -->
+        <a href="https://t.me/grapelaboratory" class="btn btn-gradient text-white fw-bold px-4 py-3 rounded-pill mt-4 shadow-lg">
+            Стать частью команды <i class="bi bi-arrow-right ms-2"></i> 
+        </a>
+    </div>
+</section>
+
+<!-- 4. Скрипт для 3D-анимации (включается только здесь) -->
+<script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js" } }
+</script>
+<script type="module">
+    // Импортируем Three.js
+    import * as THREE from 'three';
+
+    // Переменные для сцены, камеры, рендера, шара и шейдера
+    let scene, camera, renderer, sphere, uniforms;
+
+    // Функция инициализации
+    function init() {        
+        // Находим наш canvas по id
+        const canvas = document.getElementById('hero-canvas');
+        // Если не нашли (мало ли), выходим
+        if (!canvas) return;
+
+        const isMobile = () => window.innerWidth <= 768;
+
+        // Создаем сцену
+        scene = new THREE.Scene();
+        // Создаем камеру (угол обзора, соотношение сторон, ближняя и дальняя границы)
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        // Отодвигаем камеру немного назад, чтобы видеть шар
+        camera.position.z = isMobile() ? 2.2 : 2.5;
+
+        // Создаем рендерер (рисовальщик), используем наш canvas, включаем сглаживание и прозрачный фон
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Создаем геометрию шара (радиус 1.2, качество детализации 64x64)
+        const geometry = new THREE.SphereGeometry(1.2, 64, 64);
+        // Переменные для шейдера (время и цвета)
+        uniforms = {
+            time: { value: 1.0 },
+            colorA: { value: new THREE.Color(0x8B5CF6) }, // Фиолетовый
+            colorB: { value: new THREE.Color(0x00B4DB) }  // Голубой
+        };
+
+        // Создаем материал для шара с помощью шейдеров (магия графики!)
+        // Используем let вместо const, чтобы можно было пересоздать материал при ресайзе
+        let material = new THREE.ShaderMaterial({
+            uniforms: uniforms, // Передаем переменные
+            vertexShader: ` // Программа для вершин (определяет форму)
+                varying vec2 vUv; // Передаем UV-координаты во фрагментный шейдер
+                void main() {
+                    vUv = uv; // uv - стандартные координаты текстуры на сфере
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); // Стандартный расчет позиции вершины
+                }
+            `,
+            fragmentShader: ` // Программа для пикселей (определяет цвет)
+                uniform float time; // Получаем время
+                uniform vec3 colorA; // Получаем первый цвет
+                uniform vec3 colorB; // Получаем второй цвет
+                varying vec2 vUv; // Получаем UV-координаты
+                void main() {
+                    // Смешиваем цвета A и B в зависимости от Y-координаты и синуса времени/X-координаты (создает переливы)
+                    vec3 color = mix(colorA, colorB, vUv.y + 0.2 * sin(time + vUv.x * 5.0));
+                    
+                    /* --- ИЗМЕНЕНИЕ: Непрозрачный шейдер (прозрачность будет в CSS) --- */
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `,
+            wireframe: true, // Рисуем только каркас
+            transparent: true, // Включаем прозрачность
+            depthWrite: true 
+        });
+
+        // Функция для создания геометрии шара в зависимости от размера экрана
+        const createSphereGeometry = () => {
+            const sphereRadius = isMobile() ? 0.9 : 1.2;
+            const sphereDetail = isMobile() ? 32 : 64;
+            return new THREE.SphereGeometry(sphereRadius, sphereDetail, sphereDetail);
+        };
+        // Создаем сам объект шара (геометрия + материал)
+        sphere = new THREE.Mesh(createSphereGeometry(), material);
+        // Добавляем шар на сцену
+        scene.add(sphere);
+
+        // Добавляем слушателей событий: изменение размера окна и движение мыши
+        window.addEventListener('resize', onWindowResize, false);
+        document.addEventListener('mousemove', onMouseMove, false);
+        // Запускаем цикл анимации
+        animate();
+    }
+
+    // Функция при изменении размера окна
+    function onWindowResize() {
+        // Если камеры или рендера нет, выходим
+        if (!camera || !renderer) return;
+
+        const isMobile = () => window.innerWidth <= 768;
+
+        // Обновляем геометрию и позицию камеры при изменении типа устройства (десктоп/мобильный)
+        if (sphere) {
+            sphere.geometry.dispose(); // Освобождаем память от старой геометрии
+            sphere.geometry = new THREE.SphereGeometry(isMobile() ? 0.9 : 1.2, isMobile() ? 32 : 64, isMobile() ? 32 : 64);
+        }
+        camera.position.z = isMobile() ? 2.2 : 2.5;
+
+        // Обновляем соотношение сторон камеры
+        camera.aspect = window.innerWidth / window.innerHeight;
+        // Применяем изменения камеры
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight); // Обновляем размер рендера
+    }
+
+    // Функция при движении мыши
+    function onMouseMove(event) {
+        // Если шара нет, выходим
+        if(!sphere) return;
+        // Считаем позицию мыши от -1 до 1 по X и Y
+        const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Целевые углы поворота шара в зависимости от мыши
+        const targetRotationY = mouseX * 0.5; // Умножаем на 0.5 для меньшей амплитуды
+        const targetRotationX = mouseY * 0.5;
+
+        // Убедимся, что GSAP (библиотека анимаций) загружена (мы подключили ее в base.html)
+        if (typeof gsap !== 'undefined') {
+            // Используем GSAP для плавного "доведения" шара до нужной ротации
+            gsap.to(sphere.rotation, {
+                y: targetRotationY, // targetRotationY уже посчитана выше
+                x: targetRotationX, // targetRotationX уже посчитана выше
+                duration: 1.5, // Длительность анимации
+                ease: "power2.out" // Тип "смягчения" анимации
+            });
+        } else {
+            // Fallback на случай, если GSAP не загрузился (старый метод)
+            sphere.rotation.y += (targetRotationY - sphere.rotation.y) * 0.05;
+            sphere.rotation.x += (targetRotationX - sphere.rotation.x) * 0.05;
+        }
+    }
+
+    // Главный цикл анимации (вызывается постоянно)
+    function animate() {
+        // Запланировать вызов этой же функции на следующий кадр
+        requestAnimationFrame(animate);
+        // Если есть переменные для шейдера, увеличиваем время (для анимации градиента)
+        if (uniforms) uniforms.time.value += 0.01;
+        
+        if (sphere) sphere.rotation.y += 0.0005; 
+        
+        // Перерисовываем сцену
+        renderer.render(scene, camera);
+    }
+    init();
+
+</script>

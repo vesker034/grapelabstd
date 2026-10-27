@@ -1,0 +1,62 @@
+{% load static %}
+<section class="container py-5">
+    <div class="card text-center bg-transparent border-0 position-relative">
+        <!-- Заголовок -->
+        <div class="component-header pt-2 border-bottom border-secondary">
+            <h3 class="fs-4 fw-bold contact-title">Контакты</h3>
+        </div>
+        
+        <!-- Фон как отдельный слой -->
+        <div class="component-background"></div>
+        
+        <!-- Контент поверх фона -->
+        <div class="row g-5 align-items-center position-relative">
+            <div class="col-md-1"></div>
+            <div class="col-lg-5 px-5 mt-0">
+                <ul class="list-group list-group-flush bg-transparent pt-4" style="text-align: left;">
+                    {% if contacts_info.email %}
+                    <li class="list-group-item bg-transparent border-secondary contact-item">Наша почта: 
+                        <a href="mailto:{{ contacts_info.email }}" class="text-decoration-none text-reset">{{ contacts_info.email }}</a>
+                    </li>
+                    {% endif %}
+                    {% if contacts_info.phone %}
+                    <li class="list-group-item bg-transparent border-secondary contact-item">Наш телефон: 
+                        <a href="tel:{{ contacts_info.phone }}" class="text-decoration-none text-reset">{{ contacts_info.phone }}</a>
+                    </li>
+                    {% endif %}
+                    {% if contacts_info.social_links %}
+                    <li class="list-group-item bg-transparent border-secondary contact-item">Наши соцсети:
+                        <!-- HTMX lazy loading контейнер -->
+                        <div
+                            hx-get="{% url 'contacts_social_partial' %}"
+                            hx-trigger="revealed"
+                            hx-swap="outerHTML"
+                        >
+                            <!-- Loading indicator -->
+                            <div class="d-flex gap-2 align-items-center text-muted">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Загрузка...</span>
+                                </div>
+                                <span class="small">Загрузка соц. сетей...</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% if contacts_info.description %}
+                    <li class="list-group-item bg-transparent border-secondary contact-item">
+                        <span>{{ contacts_info.description }}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-lg-5 py-lg-5 py-2 px-5">
+                <div class="ratio ratio-4x3">
+                    {% if contacts_info.map_embed %}
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A9555181c265655bccc64babf89fe01207822e770f462a597a5259690c0446790&amp;width=422&amp;height=337&amp;lang=ru_RU&amp;scroll=true"></script>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,40 @@
+{% load static %}
+<!-- Секция "Направления" -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center display-5 fw-bold mb-4 animate-on-scroll">
+            <span class="gradient-text">Направления</span>
+        </h2>
+        <div class="directions-container glass-effect p-4 p-md-5 animate-on-scroll">
+            <div class="row g-4">
+                {% for main_direction in main_directions %}
+                    <div class="col-lg-4">
+                        <div class="card directions-card h-100 animate-on-scroll" style="transition-delay: 0.1s;">
+                            <div class="directions-card-header">
+                                {% if main_direction.direction.icon %}
+                                    <img src="{{ main_direction.direction.icon.url }}" alt="{{ main_direction.direction.title }}" class="directions-card-icon">
+                                {% else %}
+                                    <i class="bi bi-compass display-4 text-white"></i>
+                                {% endif %}
+                            </div>
+                            <div class="directions-card-body">
+                                <h3 class="fs-4 fw-bold mb-3">{{ main_direction.direction.title }}</h3>
+                                <p class="text-secondary mb-0">
+                                    {{ main_direction.direction.short_text|truncatewords:15 }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center text-secondary col-12">Направления скоро появятся здесь.</p>
+                {% endfor %}
+            </div> 
+            <div class="text-center mt-5">
+                <a href="{% url 'directions' %}" class="btn btn-gradient fw-bold px-4 py-3">
+                    Все направления <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+
+        </div>
+    </div> 
+</section>

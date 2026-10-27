@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Мероприятия - GrapeLabStd{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{% static 'css/event.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include 'components/events.html' %}
+{% endblock %}
+
+{% block scripts_extra %}
+    <script>
+        // Передаем события из Django в JavaScript ПЕРЕД загрузкой calendar.js
+        window.calendarEvents = {{ events_json|safe }};
+    </script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+    <script src="{% static 'js/events-pagination.js' %}"></script>
+{% endblock %}

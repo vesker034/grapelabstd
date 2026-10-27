@@ -1,0 +1,238 @@
+<!-- Компонент VR-тура лаборатории -->
+{% load static %}
+<section class="container">
+    <div class="row align-items-center">
+        <!-- Текстовый блок -->
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <h2 class="display-5 fw-bold mb-4"><span class="gradient-text">VR-тур лаборатории</span></h2>
+            <p class="lead text-secondary mb-4">
+                Исследуйте нашу лабораторию в интерактивном 360° формате. Посетите каждую зону,
+                почувствуйте атмосферу и узнайте, где рождаются инновационные проекты.
+            </p>
+            <div class="d-flex align-items-center mb-4">
+                <div class="me-3">
+                    <i class="bi bi-360 display-6 icon-gradient"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-2">Исследовать в 360°</h4>
+                    <p class="text-secondary mb-0">Полное погружение в пространство лаборатории</p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5 class="fw-bold mb-3">Управление туром:</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-arrow-left-right me-2 text-primary"></i>
+                            <small>Перетаскивание - вращение</small>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-mouse me-2 text-primary"></i>
+                            <small>Колесо мыши - приближение</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-phone-landscape me-2 text-primary"></i>
+                            <small>На телефоне - движение</small>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-arrows-angle-expand me-2 text-primary"></i>
+                            <small>Двойной клик - полноэкранный</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок с интерактивной панорамой -->
+        <div class="col-lg-6">
+            <div class="glass-card p-4 text-center">
+                <div class="position-relative">
+                    <!-- Контейнер для панорамы -->
+                    <div id="panorama-container" class="panorama-container rounded-3" style="height: 400px; position: relative; border: 2px solid var(--clr-border-dark); overflow: hidden;">
+                        <div id="panorama-viewer" style="width: 100%; height: 100%;"></div>
+
+                        <!-- Индикатор загрузки -->
+                        <div id="loading-indicator" class="position-absolute top-50 start-50 translate-middle text-center">
+                            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                                <span class="visually-hidden">Загрузка...</span>
+                            </div>
+                            <p class="mt-3 text-white fw-bold">Инициализация VR-тура...</p>
+                        </div>
+
+                        <!-- Сообщение об ошибке -->
+                        <div id="error-message" class="position-absolute top-50 start-50 translate-middle text-center" style="display: none;">
+                            <div class="bg-dark bg-opacity-75 p-4 rounded-3">
+                                <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+                                <h5 class="text-white mt-2">Ошибка загрузки</h5>
+                                <p class="text-light mb-3" id="error-text">Не удалось загрузить VR-тур</p>
+                                <button class="btn btn-primary btn-sm" onclick="retryLoadVR()">Попробовать снова</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Индикатор 360° -->
+                    <div class="position-absolute top-0 start-0 m-3">
+                        <span class="badge bg-primary px-3 py-2">360° Интерактивная панорама</span>
+                    </div>
+                </div>
+
+                <!-- Кнопка запуска - под панорамой -->
+                <div class="mt-4">
+                    <button class="btn btn-gradient btn-lg" id="start-vr-btn" onclick="startExploration()">
+                        <i class="bi bi-360 me-2"></i>Исследовать в 360°
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Подключаем библиотеки -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.112/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/panolens@0.11.0/build/panolens.min.js"></script>
+
+<script>
+// Глобальные переменные
+let viewer = null;
+let panorama = null;
+
+// Основная функция инициализации VR-тура
+function initializeVR() {
+    const container = document.getElementById('panorama-viewer');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const startBtn = document.getElementById('start-vr-btn');
+
+    // Проверяем, существует ли контейнер
+    if (!container) {
+        console.error('Контейнер panorama-viewer не найден');
+        showError('Ошибка инициализации: контейнер не найден');
+        return;
+    }
+
+    // Показываем индикатор загрузки
+    if (loadingIndicator) loadingIndicator.style.display = 'block';
+
+    try {
+        // Создаем viewer с правильными параметрами
+        viewer = new PANOLENS.Viewer({
+            container: container,
+            controlBar: false,
+            autoRotate: false,
+            cameraFov: 125,
+            autoHideInfospot: false,
+            enableReticle: true
+        });
+
+        // Проверяем путь к изображению
+        const panoramaUrl = "{% static 'images/panorama.jpg' %}";
+        console.log('Загрузка панорамы по URL:', panoramaUrl);
+
+        // Создаем и загружаем панораму
+        panorama = new PANOLENS.ImagePanorama(panoramaUrl);
+
+        // Обработчики событий панорамы
+        panorama.addEventListener('load', function() {
+            console.log('Панорама успешно загружена');
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            if (startBtn) startBtn.disabled = false;
+        });
+
+        panorama.addEventListener('progress', function(event) {
+            console.log('Прогресс загрузки:', event.progress);
+        });
+
+        panorama.addEventListener('error', function(error) {
+            console.error('Ошибка загрузки панорамы:', error);
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            showError('Не удалось загрузить панораму. Проверьте путь к файлу.');
+            if (startBtn) startBtn.disabled = true;
+        });
+
+        // Добавляем панораму в viewer
+        viewer.add(panorama);
+
+    } catch (error) {
+        console.error('Ошибка при создании VR-тура:', error);
+        showError('Ошибка инициализации VR-тура: ' + error.message);
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+    }
+}
+
+// Функция для кнопки "Исследовать в 360°"
+function startExploration() {
+    if (!viewer) {
+        alert('VR-тур еще загружается. Пожалуйста, подождите.');
+        return;
+    }
+
+    const container = document.getElementById('panorama-container');
+
+    // Включаем полноэкранный режим
+    if (container && !document.fullscreenElement) {
+        container.requestFullscreen().catch(err => {
+            console.log('Полноэкранный режим не поддерживается:', err);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// Показ ошибок
+function showError(message) {
+    const errorMessage = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
+    const loadingIndicator = document.getElementById('loading-indicator');
+
+    if (loadingIndicator) loadingIndicator.style.display = 'none';
+    if (errorMessage) {
+        if (errorText) errorText.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+}
+
+// Повторная попытка загрузки
+function retryLoadVR() {
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) errorMessage.style.display = 'none';
+
+    // Если viewer существует, очищаем его
+    if (viewer) {
+        viewer.dispose();
+        viewer = null;
+    }
+
+    // Перезагружаем контейнер
+    const container = document.getElementById('panorama-viewer');
+    if (container) {
+        container.innerHTML = '';
+    }
+
+    // Запускаем инициализацию заново
+    setTimeout(initializeVR, 500);
+}
+
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем, загружены ли библиотеки
+    if (typeof THREE === 'undefined' || typeof PANOLENS === 'undefined') {
+        showError('Библиотеки 3D не загружены. Проверьте подключение к интернету.');
+        return;
+    }
+
+    // Запускаем инициализацию
+    setTimeout(initializeVR, 1000);
+});
+
+// Обработчик изменения полноэкранного режима
+document.addEventListener('fullscreenchange', function() {
+    if (viewer) {
+        // Обновляем размеры viewer при изменении полноэкранного режима
+        setTimeout(function() {
+            viewer.updateSize();
+        }, 100);
+    }
+});
+</script>

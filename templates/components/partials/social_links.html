@@ -1,0 +1,18 @@
+{% load static %}
+<div class="social-links d-flex gap-3">
+    {% for social in contacts_info.get_social_links_display %}
+    <a href="{{ social.url }}" class="text-reset" target="_blank" rel="noopener noreferrer" title="{{ social.name }}">
+        <img src="{% static 'images/icons/' %}{{ social.icon }}"
+             alt="{{ social.name }}"
+             width="32"
+             height="32"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+        <!-- Fallback Bootstrap Icon если PNG не найден -->
+        <i class="bi bi-link-45deg"
+           style="font-size: 32px; display: none;"
+           title="{{ social.name }}"></i>
+    </a>
+    {% empty %}
+    <span class="text-muted small">Социальные сети не указаны</span>
+    {% endfor %}
+</div>

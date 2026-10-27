@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Контакты - GrapeLabStd{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    {% include 'components/contacts.html' %}
+
+{% endblock %}

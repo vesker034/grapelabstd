@@ -1,0 +1,336 @@
+/* Стили для страницы событий */
+
+/* Фон секции событий - адаптивный под тему */
+.events-section {
+    background: rgba(74, 0, 224, 0.03);
+}
+
+[data-bs-theme="light"] .events-section {
+    background: rgba(142, 45, 226, 0.02);
+}
+
+/* Контейнер табов */
+.events-tabs-container {
+    background: rgba(15, 8, 36, 0.7);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--bs-border-color-translucent);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+[data-bs-theme="light"] .events-tabs-container {
+    background: var(--clr-card-light);
+    border: 1px solid var(--bs-border-color-translucent);
+    backdrop-filter: blur(10px);
+}
+
+/* Заголовки секций событий */
+.events-tabs-container h2 {
+    font-weight: 600;
+}
+
+/* Стили для табов*/
+.nav-pills .nav-link {
+    color: var(--clr-text-secondary-dark);
+    background: transparent;
+    border-radius: 0;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-bottom: 3px solid transparent;
+    position: relative;
+}
+
+[data-bs-theme="light"] .nav-pills .nav-link {
+    color: var(--clr-text-secondary-light);
+}
+
+.nav-pills .nav-link:hover {
+    color: var(--clr-text-primary-dark);
+    background: transparent;
+}
+
+[data-bs-theme="light"] .nav-pills .nav-link:hover {
+    color: var(--clr-text-primary-light);
+}
+
+.nav-pills .nav-link.active {
+    color: var(--clr-text-primary-dark);
+    background: transparent;
+    border-bottom: 3px solid;
+    border-image: var(--gradient-button-dark) 1;
+}
+
+[data-bs-theme="light"] .nav-pills .nav-link.active {
+    color: var(--clr-text-primary-light);
+    border-image: var(--gradient-button-light) 1;
+}
+
+/* Карточки событий - 2 секции с адаптацией под темы */
+.event-card {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 2px solid var(--clr-border-dark);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* Светлая тема - градиентный бордер */
+[data-bs-theme="light"] .event-card {
+    border: 2px solid transparent;
+    background-image: linear-gradient(white, white),
+    var(--gradient-header-light);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(74, 0, 224, 0.25);
+}
+
+[data-bs-theme="light"] .event-card:hover {
+    box-shadow: 0 20px 40px rgba(142, 45, 226, 0.2);
+}
+
+/* Верхняя секция карточки - градиент с иконкой */
+.event-card-header {
+    background: var(--gradient-button-dark);
+    padding: 4rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    position: relative;
+}
+
+.event-card-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-card-icon-wrapper {
+    transform: scale(1.1);
+}
+
+.event-card-icon-wrapper i {
+    font-size: 3.5rem;
+    color: white;
+}
+
+/* Нижняя секция карточки - адаптивный фон */
+.event-card-body {
+    background: #1E0E3E;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 300px;
+}
+
+[data-bs-theme="light"] .event-card-body {
+    background: white;
+}
+
+/* Название события */
+.event-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--clr-text-primary-dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+[data-bs-theme="light"] .event-card-title {
+    color: var(--clr-text-primary-light);
+}
+
+/* Информация о событии */
+.event-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.event-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+[data-bs-theme="light"] .event-info-item {
+    color: var(--clr-text-secondary-light);
+}
+
+.event-info-item i {
+    font-size: 1.25rem;
+    color: var(--clr-accent2-dark);
+    flex-shrink: 0;
+}
+
+/* Описание события */
+.event-card-description {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+[data-bs-theme="light"] .event-card-description {
+    color: var(--clr-text-secondary-light);
+}
+
+/* === ПУСТОЕ СОСТОЯНИЕ СОБЫТИЙ === */
+
+.events-empty-state {
+    max-width: 600px;
+    margin: 2rem auto;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.empty-state-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.events-empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.events-empty-state p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+[data-bs-theme="light"] .events-empty-state p {
+    color: var(--clr-text-secondary-light) !important;
+}
+
+/* === СТИЛИ ПАГИНАЦИИ === */
+
+.pagination {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination .page-item {
+    list-style: none;
+}
+
+.pagination .page-link {
+    border: 2px solid var(--clr-border-dark);
+    background: rgba(30, 14, 62, 0.4);
+    backdrop-filter: blur(10px);
+    color: var(--clr-text-primary-dark);
+    padding: 0.625rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 44px;
+    justify-content: center;
+}
+
+[data-bs-theme="light"] .pagination .page-link {
+    border: 2px solid transparent;
+    background: white;
+    background-image: linear-gradient(white, white), var(--gradient-header-light);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    color: var(--clr-text-primary-light);
+}
+
+.pagination .page-link:hover:not(.disabled) {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(74, 0, 224, 0.3);
+}
+
+[data-bs-theme="light"] .pagination .page-link:hover:not(.disabled) {
+    background: var(--gradient-button-light);
+    box-shadow: 0 8px 16px rgba(142, 45, 226, 0.25);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+    cursor: default;
+    box-shadow: 0 4px 12px rgba(74, 0, 224, 0.4);
+}
+
+[data-bs-theme="light"] .pagination .page-item.active .page-link {
+    background: var(--gradient-button-light);
+    box-shadow: 0 4px 12px rgba(142, 45, 226, 0.3);
+}
+
+.pagination .page-item.disabled .page-link,
+.pagination .page-item.disabled span {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: rgba(30, 14, 62, 0.2);
+    border-color: var(--clr-border-dark);
+}
+
+[data-bs-theme="light"] .pagination .page-item.disabled .page-link,
+[data-bs-theme="light"] .pagination .page-item.disabled span {
+    background: rgba(142, 45, 226, 0.05);
+    border-color: var(--bs-border-color-translucent);
+}
+
+/* Мобильная адаптация пагинации */
+@media (max-width: 576px) {
+    .pagination .page-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        min-width: 40px;
+    }
+
+    .pagination {
+        gap: 0.35rem;
+    }
+}

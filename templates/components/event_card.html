@@ -1,0 +1,30 @@
+<!-- Event Card Component -->
+<div class="col-12 col-sm-6 col-lg-4">
+    <div class="event-card h-100">
+        <!-- Верхняя секция с градиентом и иконкой -->
+        <div class="event-card-header">
+            <div class="event-card-icon-wrapper">
+                <i class="bi bi-{{ event.get_icon_class }}"></i>
+            </div>
+        </div>
+        <!-- Нижняя секция с контентом -->
+        <div class="event-card-body">
+            <h3 class="event-card-title">{{ event.title }}</h3>
+            <div class="event-card-info">
+                <div class="event-info-item">
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{ event.get_formatted_date }}</span>
+                </div>
+                {% if event.location %}
+                    <div class="event-info-item">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <span>{{ event.location }}</span>
+                    </div>
+                {% endif %}
+            </div>
+            <p class="event-card-description">
+                {{ event.description|default:"Описание скоро появится" }}
+            </p>
+        </div>
+    </div>
+</div>

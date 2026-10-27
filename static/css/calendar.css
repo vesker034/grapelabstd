@@ -1,0 +1,1030 @@
+/* Стили для календаря мероприятий */
+
+/* Основной контейнер календаря */
+.calendar-container {
+    background: var(--clr-background-dark);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid var(--clr-border-dark);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+[data-bs-theme="light"] .calendar-container {
+    background: var(--clr-card-light);
+    border: 1px solid var(--clr-border-light);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+/* Шапка календаря с навигацией и переключателями */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.calendar-month-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    min-width: 200px;
+    text-align: center;
+}
+
+[data-bs-theme="light"] .calendar-month-title {
+    color: var(--clr-text-primary-light);
+}
+
+/* Кнопки навигации по месяцам */
+.calendar-nav-btn {
+    background: transparent;
+    border: 2px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calendar-nav-btn:hover {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+    transform: scale(1.05);
+}
+
+[data-bs-theme="light"] .calendar-nav-btn {
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .calendar-nav-btn:hover {
+    background: var(--gradient-button-light);
+    color: white;
+}
+
+/* Переключатель вида (календарь/список) и фильтры */
+.calendar-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.view-toggle-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.view-toggle-btn.active {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+}
+
+.view-toggle-btn:not(.active):hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+[data-bs-theme="light"] .view-toggle-btn {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .view-toggle-btn.active {
+    background: var(--gradient-button-light);
+    color: white;
+}
+
+/* Фильтр по статусу */
+.status-filter {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.status-filter:focus {
+    outline: none;
+    border-color: var(--clr-accent2-dark);
+    box-shadow: 0 0 0 3px rgba(0, 180, 219, 0.1);
+}
+
+[data-bs-theme="light"] .status-filter {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .status-filter:focus {
+    border-color: var(--clr-accent1-light);
+    box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.1);
+}
+
+/* === ВИД КАЛЕНДАРЯ (СЕТКА) === */
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Заголовки дней недели */
+.calendar-day-header {
+    text-align: center;
+    font-weight: 700;
+    color: var(--clr-accent2-dark);
+    padding: 1rem 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+[data-bs-theme="light"] .calendar-day-header {
+    color: var(--clr-accent1-light);
+}
+
+/* Ячейка дня */
+.calendar-day {
+    aspect-ratio: 1;
+    border: 1px solid var(--clr-border-dark);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.calendar-day:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    border-color: var(--clr-accent2-dark);
+}
+
+[data-bs-theme="light"] .calendar-day {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: var(--clr-border-light);
+}
+
+[data-bs-theme="light"] .calendar-day:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--clr-accent1-light);
+}
+
+/* День не из текущего месяца */
+.calendar-day.other-month {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Сегодняшний день */
+.calendar-day.today {
+    border: 2px solid var(--clr-accent2-dark);
+    background: rgba(0, 180, 219, 0.1);
+}
+
+[data-bs-theme="light"] .calendar-day.today {
+    border-color: var(--clr-accent1-light);
+    background: rgba(142, 45, 226, 0.1);
+}
+
+/* Номер дня */
+.calendar-day-number {
+    font-weight: 700;
+    color: white;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+[data-bs-theme="light"] .calendar-day-number {
+    color: var(--clr-text-primary-light);
+}
+
+/* События в ячейке дня */
+.calendar-day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.calendar-event-dot {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    background: var(--gradient-button-dark);
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .calendar-event-dot {
+    background: var(--gradient-button-light);
+}
+
+.calendar-event-dot.past {
+    opacity: 0.5;
+}
+
+/* Индикатор "еще N событий" */
+.calendar-more-events {
+    font-size: 0.65rem;
+    color: var(--clr-accent2-dark);
+    font-weight: 600;
+    margin-top: 0.15rem;
+}
+
+[data-bs-theme="light"] .calendar-more-events {
+    color: var(--clr-accent1-light);
+}
+
+/* === ВИД СПИСКА === */
+
+.calendar-list-view {
+    display: none;
+}
+
+.calendar-list-view.active {
+    display: block;
+}
+
+.calendar-grid-view.active {
+    display: grid;
+}
+
+.calendar-grid-view:not(.active) {
+    display: none;
+}
+
+/* Группировка событий по датам в виде списка */
+.calendar-list-group {
+    margin-bottom: 2rem;
+}
+
+.calendar-list-date {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid;
+    border-image: var(--gradient-button-dark) 1;
+}
+
+[data-bs-theme="light"] .calendar-list-date {
+    color: var(--clr-text-primary-light);
+    border-image: var(--gradient-button-light) 1;
+}
+
+.calendar-list-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--clr-border-dark);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.calendar-list-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(74, 0, 224, 0.2);
+    border-color: var(--clr-accent2-dark);
+}
+
+[data-bs-theme="light"] .calendar-list-item {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: var(--clr-border-light);
+}
+
+[data-bs-theme="light"] .calendar-list-item:hover {
+    background: white;
+    border-color: var(--clr-accent1-light);
+    box-shadow: 0 10px 30px rgba(142, 45, 226, 0.15);
+}
+
+.calendar-list-item-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-button-dark);
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.calendar-list-item-icon i {
+    font-size: 1.75rem;
+    color: white;
+}
+
+[data-bs-theme="light"] .calendar-list-item-icon {
+    background: var(--gradient-button-light);
+}
+
+.calendar-list-item-content {
+    flex-grow: 1;
+}
+
+.calendar-list-item-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+[data-bs-theme="light"] .calendar-list-item-title {
+    color: var(--clr-text-primary-light);
+}
+
+.calendar-list-item-info {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.calendar-list-item-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--clr-text-secondary-dark);
+    font-size: 0.9rem;
+}
+
+.calendar-list-item-detail i {
+    color: var(--clr-accent2-dark);
+}
+
+[data-bs-theme="light"] .calendar-list-item-detail {
+    color: var(--clr-text-secondary-light);
+}
+
+[data-bs-theme="light"] .calendar-list-item-detail i {
+    color: var(--clr-accent1-light);
+}
+
+/* Статус события (прошедшее) */
+.calendar-list-item.past {
+    opacity: 0.6;
+}
+
+.calendar-list-item.past .calendar-list-item-icon {
+    background: linear-gradient(128deg, #666 0%, #999 100%);
+}
+
+/* === МОДАЛЬНОЕ ОКНО === */
+
+.event-modal .modal-content {
+    background: var(--clr-background-dark);
+    border: 1px solid var(--clr-border-dark);
+    border-radius: 1rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+[data-bs-theme="light"] .event-modal .modal-content {
+    background: var(--clr-card-light);
+    border-color: var(--clr-border-light);
+}
+
+.event-modal .modal-header {
+    border-bottom: 1px solid var(--clr-border-dark);
+    background: var(--gradient-button-dark);
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+}
+
+[data-bs-theme="light"] .event-modal .modal-header {
+    background: var(--gradient-button-light);
+    border-bottom-color: var(--clr-border-light);
+}
+
+.event-modal .modal-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.event-modal .modal-title i {
+    font-size: 1.5rem;
+}
+
+.event-modal .btn-close {
+    filter: invert(1);
+}
+
+.event-modal .modal-body {
+    padding: 2rem;
+}
+
+.event-modal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-modal-info-item {
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+}
+
+.event-modal-info-item i {
+    font-size: 1.25rem;
+    color: var(--clr-accent2-dark);
+    width: 24px;
+    flex-shrink: 0;
+}
+
+.event-modal-info-item span {
+    color: var(--clr-text-secondary-dark);
+    line-height: 1.6;
+}
+
+[data-bs-theme="light"] .event-modal-info-item i {
+    color: var(--clr-accent1-light);
+}
+
+[data-bs-theme="light"] .event-modal-info-item span {
+    color: var(--clr-text-secondary-light);
+}
+
+.event-modal-description {
+    color: var(--clr-text-secondary-dark);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+[data-bs-theme="light"] .event-modal-description {
+    color: var(--clr-text-secondary-light);
+}
+
+.event-modal .modal-footer {
+    border-top: 1px solid var(--clr-border-dark);
+}
+
+[data-bs-theme="light"] .event-modal .modal-footer {
+    border-top-color: var(--clr-border-light);
+}
+
+/* === АДАПТИВНОСТЬ === */
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .calendar-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calendar-nav {
+        justify-content: center;
+    }
+
+    .calendar-controls {
+        justify-content: center;
+    }
+
+    .calendar-day {
+        aspect-ratio: auto;
+        min-height: 80px;
+    }
+
+    .calendar-day-number {
+        font-size: 0.8rem;
+    }
+
+    .calendar-event-dot {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+    }
+}
+
+/* Мобильные устройства - автоматически переключаемся на список */
+@media (max-width: 992px) {
+    .calendar-container {
+        padding: 1.5rem;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .calendar-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: 1rem;
+    }
+
+    .calendar-header {
+        gap: 0.75rem;
+    }
+
+    .calendar-month-title {
+        font-size: 1.25rem;
+    }
+
+    /* Скрываем вид сетки на мобильных */
+    .calendar-grid-view {
+        display: none !important;
+    }
+
+    /* Всегда показываем список на мобильных */
+    .calendar-list-view {
+        display: block !important;
+    }
+
+    /* Скрываем переключатель вида на мобильных */
+    .view-toggle-group {
+        display: none;
+    }
+
+    .calendar-list-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .calendar-list-item-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .calendar-list-item-icon i {
+        font-size: 1.5rem;
+    }
+
+    .calendar-list-item-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .calendar-nav-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .calendar-month-title {
+        font-size: 1.1rem;
+        min-width: auto;
+    }
+
+    .calendar-list-date {
+        font-size: 1.1rem;
+    }
+
+    .calendar-list-item-title {
+        font-size: 1rem;
+    }
+
+    .calendar-list-item-detail {
+        font-size: 0.85rem;
+    }
+}
+
+/* Кнопка "Сегодня" */
+.calendar-today-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calendar-today-btn:hover {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+}
+
+[data-bs-theme="light"] .calendar-today-btn {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .calendar-today-btn:hover {
+    background: var(--gradient-button-light);
+    color: white;
+}
+
+/* Пустое состояние */
+.calendar-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--clr-text-secondary-dark);
+}
+
+.calendar-empty i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.calendar-empty p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+[data-bs-theme="light"] .calendar-empty {
+    color: var(--clr-text-secondary-light);
+}
+
+/* === ВИДЖЕТ ВЫБОРА МЕСЯЦА И ГОДА === */
+
+.month-year-picker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.month-year-picker.active {
+    display: flex;
+}
+
+/* Overlay с blur эффектом */
+.month-year-picker-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 8, 36, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+[data-bs-theme="light"] .month-year-picker-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Контент виджета */
+.month-year-picker-content {
+    position: relative;
+    z-index: 10;
+    background: var(--clr-background-dark);
+    border: 1px solid var(--clr-border-dark);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+[data-bs-theme="light"] .month-year-picker-content {
+    background: white;
+    border-color: var(--clr-border-light);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Шапка виджета */
+.month-year-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid;
+    border-image: var(--gradient-button-dark) 1;
+}
+
+[data-bs-theme="light"] .month-year-picker-header {
+    border-image: var(--gradient-button-light) 1;
+}
+
+.month-year-picker-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+[data-bs-theme="light"] .month-year-picker-title {
+    color: var(--clr-text-primary-light);
+}
+
+.month-year-picker-close {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    width: 36px;
+    height: 36px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.month-year-picker-close:hover {
+    background: rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.5);
+    color: #ff4444;
+    transform: rotate(90deg);
+}
+
+[data-bs-theme="light"] .month-year-picker-close {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+/* Селектор года */
+.year-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.year-nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.year-nav-btn:hover {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+    transform: scale(1.1);
+}
+
+[data-bs-theme="light"] .year-nav-btn {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .year-nav-btn:hover {
+    background: var(--gradient-button-light);
+    color: white;
+}
+
+.year-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    min-width: 120px;
+    text-align: center;
+    background: var(--gradient-header-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+[data-bs-theme="light"] .year-display {
+    background: var(--gradient-header-light);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Сетка месяцев */
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.month-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--clr-border-dark);
+    color: var(--clr-text-secondary-dark);
+    padding: 1rem 0.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.month-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--clr-accent2-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 180, 219, 0.2);
+}
+
+.month-item.current {
+    background: var(--gradient-button-dark);
+    border-color: transparent;
+    color: white;
+}
+
+.month-item.selected {
+    background: rgba(0, 180, 219, 0.2);
+    border-color: var(--clr-accent2-dark);
+    color: white;
+}
+
+[data-bs-theme="light"] .month-item {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--clr-border-light);
+    color: var(--clr-text-primary-light);
+}
+
+[data-bs-theme="light"] .month-item:hover {
+    background: rgba(142, 45, 226, 0.1);
+    border-color: var(--clr-accent1-light);
+    color: var(--clr-accent1-light);
+    box-shadow: 0 5px 15px rgba(142, 45, 226, 0.15);
+}
+
+[data-bs-theme="light"] .month-item.current {
+    background: var(--gradient-button-light);
+    color: white;
+}
+
+[data-bs-theme="light"] .month-item.selected {
+    background: rgba(142, 45, 226, 0.15);
+    border-color: var(--clr-accent1-light);
+    color: var(--clr-accent1-light);
+}
+
+/* Кнопки действий */
+.month-year-picker-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.picker-action-btn {
+    background: var(--gradient-button-dark);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.picker-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 180, 219, 0.3);
+}
+
+[data-bs-theme="light"] .picker-action-btn {
+    background: var(--gradient-button-light);
+}
+
+[data-bs-theme="light"] .picker-action-btn:hover {
+    box-shadow: 0 10px 25px rgba(142, 45, 226, 0.25);
+}
+
+/* Адаптивность виджета */
+@media (max-width: 480px) {
+    .month-year-picker-content {
+        padding: 1.5rem;
+    }
+
+    .month-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .month-item {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .year-display {
+        font-size: 1.5rem;
+        min-width: 100px;
+    }
+
+    .year-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .month-year-picker-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Делаем заголовок месяца кликабельным */
+.calendar-month-title {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+}
+
+.calendar-month-title:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--clr-accent2-dark);
+    transform: scale(1.02);
+}
+
+[data-bs-theme="light"] .calendar-month-title:hover {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--clr-accent1-light);
+}

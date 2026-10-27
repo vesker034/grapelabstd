@@ -1,0 +1,91 @@
+.directions-section {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    margin-bottom: 5rem;
+}
+
+.directions-section .row {
+    row-gap: 2rem;
+}
+
+/* ВАЖНО: .glass-card уже задаёт стеклянный фон, blur, border и hover в global.css
+   Здесь переопределяем только то, что специфично для блока направлений (если нужно) */
+/* Сейчас дополнительных стилей для .glass-card не задаём — используем глобальные */
+
+/* Список направлений */
+.directions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.directions-list li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.directions-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--bs-info);
+}
+
+.directions-list strong {
+    display: block;
+    font-weight: 600;
+    color: var(--bs-heading-color);
+}
+
+.directions-list span {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--bs-secondary-color);
+}
+
+/* Статистика */
+.directions-stats {
+    font-size: 0.9rem;
+    color: var(--bs-secondary-color);
+}
+
+.directions-stats i {
+    font-size: 1rem;
+}
+
+/* Кнопка "Присоединиться" */
+/* В HTML желательно использовать:
+   class="btn btn-gradient directions-join-btn ..." */
+.directions-join-btn {
+    /* border-radius берётся из .btn-gradient в global.css */
+    padding: 0.6rem 1.55rem;
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+/* Пример CSS для стилизации списка */
+.directions-list {
+    list-style: none; /* Убираем стандартные маркеры */
+    padding-left: 0;
+}
+
+.directions-list-item {
+    padding-left: 1.5rem; /* Отступ для стрелки */
+    position: relative;
+    margin-bottom: 0.5rem; /* Отступ между элементами */
+    font-size: 0.95rem;
+    color: var(--bs-body-color); /* Или другой цвет */
+}
+
+.directions-list-item:before {
+    content: "▸"; /* Красная строка/стрелка/треугольник */
+    color: var(--gradient-color-start); /* Цвет, например, красный/фиолетовый */
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}

@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-GrapeLabStd}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-mysql}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  web:
+    image: ${APP_IMAGE}:${APP_TAG}
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-32000}:8000"
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - DJANGO_CSRF_TRUSTED_ORIGINS=${DJANGO_CSRF_TRUSTED_ORIGINS:-}
+      - DB_NAME=${DB_NAME:-GrapeLabStd}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-mysql}
+      - DB_HOST=db
+      - DB_PORT=3306
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+    healthcheck:
+      test: ["CMD-SHELL", "python - <<'PY'\nimport urllib.request\nrequest = urllib.request.Request('http://127.0.0.1:8000/', headers={'X-Forwarded-Proto': 'https'})\nurllib.request.urlopen(request, timeout=5)\nPY"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  mysql_data:

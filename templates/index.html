@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Главная - GrapeLabStd{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    {% include 'components/hero.html' %}
+    {% include 'components/why_us.html' %}
+    {% include 'components/activity.html' %}
+    {% include 'components/directions_index.html' %}
+    {% include 'components/team.html' %}
+
+{% endblock %}

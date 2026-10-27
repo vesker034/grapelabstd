@@ -1,0 +1,80 @@
+{% load static %}
+<section class="container py-5 gallery-section">
+    <h2 class="text-center display-5 fw-bold mb-4">
+        <span class="gradient-text">Наша команда</span>
+    </h2>
+    <div class="swiper gallery-swiper">
+        {% if gallery_items %}
+        <div class="swiper-wrapper">
+            {% for item in gallery_items %}
+                <div class="swiper-slide gallery-slide">
+                    <img src="{{ item.image.url }}" class="gallery-image" alt="{{ item.title }}">
+                    <a href="{{ item.link_url|default:'#' }}" class="gallery-overlay text-decoration-none" {% if item.link_url %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                        <div>
+                            <h5 class="gallery-title">{{ item.title }}</h5>
+                            <p class="gallery-year">{{ item.year }}</p>
+                            {% if item.link_url %}
+                            <span class="gallery-link">
+                                Подробнее <i class="bi bi-arrow-right"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div> 
+
+        <div class="swiper-pagination"></div>
+
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    {% else %}
+    <div class="text-center p-5 glass-effect">
+        <p class="lead">Фотографии команды скоро появятся здесь.</p>
+    </div>
+    {% endif %}
+</section>
+
+
+<script type="module">
+    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.mjs';
+    const swiper = new Swiper('.gallery-swiper', {
+        // Обычный слайдер
+        effect: 'slide',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: true,
+        
+        // Пагинация (точки)
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+
+        // Навигация (стрелки)
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // Адаптивность
+        breakpoints: {
+            // от 320px
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 15
+            },
+            // от 768px (планшеты)
+            768: {
+                slidesPerView: 1.2,
+                spaceBetween: 30
+            },
+            // от 1200px (десктопы)
+            1200: {
+                slidesPerView: 1.5,
+                spaceBetween: 40
+            }
+        }
+    });
+</script>

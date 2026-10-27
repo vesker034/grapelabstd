@@ -1,0 +1,117 @@
+<!-- Компонент календаря мероприятий -->
+<div class="calendar-container">
+    <!-- Шапка календаря -->
+    <div class="calendar-header">
+        <!-- Навигация по месяцам -->
+        <div class="calendar-nav">
+            <button class="calendar-nav-btn" id="prevMonth" title="Предыдущий месяц">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <h2 class="calendar-month-title" id="currentMonth">Ноябрь 2025</h2>
+            <button class="calendar-nav-btn" id="nextMonth" title="Следующий месяц">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Управление отображением и фильтры -->
+        <div class="calendar-controls">
+            <!-- Кнопка "Сегодня" -->
+            <button class="calendar-today-btn" id="todayBtn" title="Перейти к текущему месяцу">
+                <i class="bi bi-calendar-day"></i> Сегодня
+            </button>
+
+            <!-- Фильтр по статусу -->
+            <select class="status-filter" id="statusFilter">
+                <option value="all">Все события</option>
+                <option value="upcoming">Предстоящие</option>
+                <option value="past">Прошедшие</option>
+            </select>
+
+            <!-- Переключатель вида -->
+            <div class="view-toggle-group">
+                <button class="view-toggle-btn active" id="gridViewBtn" data-view="grid">
+                    <i class="bi bi-calendar3"></i> Календарь
+                </button>
+                <button class="view-toggle-btn" id="listViewBtn" data-view="list">
+                    <i class="bi bi-list-ul"></i> Список
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вид календаря (сетка) -->
+    <div class="calendar-grid-view active">
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Заголовки дней недели -->
+            <div class="calendar-day-header">Пн</div>
+            <div class="calendar-day-header">Вт</div>
+            <div class="calendar-day-header">Ср</div>
+            <div class="calendar-day-header">Чт</div>
+            <div class="calendar-day-header">Пт</div>
+            <div class="calendar-day-header">Сб</div>
+            <div class="calendar-day-header">Вс</div>
+
+            <!-- Ячейки дней будут добавлены через JavaScript -->
+        </div>
+    </div>
+
+    <!-- Вид списка -->
+    <div class="calendar-list-view" id="calendarListView">
+        <!-- Список событий будет добавлен через JavaScript -->
+    </div>
+
+    <!-- Пустое состояние -->
+    <div class="calendar-empty d-none" id="calendarEmpty">
+        <i class="bi bi-calendar-x"></i>
+        <p>Нет событий для отображения</p>
+    </div>
+</div>
+
+<!-- Виджет выбора месяца и года -->
+<div class="month-year-picker" id="monthYearPicker">
+    <div class="month-year-picker-overlay" id="monthYearPickerOverlay"></div>
+    <div class="month-year-picker-content">
+        <div class="month-year-picker-header">
+            <h3 class="month-year-picker-title">Выбор месяца и года</h3>
+            <button class="month-year-picker-close" id="monthYearPickerClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="month-year-picker-body">
+            <!-- Выбор года -->
+            <div class="year-selector">
+                <button class="year-nav-btn" id="prevYear">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <div class="year-display" id="yearDisplay">2025</div>
+                <button class="year-nav-btn" id="nextYear">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Сетка месяцев -->
+            <div class="month-grid" id="monthGrid">
+                <button class="month-item" data-month="0">Январь</button>
+                <button class="month-item" data-month="1">Февраль</button>
+                <button class="month-item" data-month="2">Март</button>
+                <button class="month-item" data-month="3">Апрель</button>
+                <button class="month-item" data-month="4">Май</button>
+                <button class="month-item" data-month="5">Июнь</button>
+                <button class="month-item" data-month="6">Июль</button>
+                <button class="month-item" data-month="7">Август</button>
+                <button class="month-item" data-month="8">Сентябрь</button>
+                <button class="month-item" data-month="9">Октябрь</button>
+                <button class="month-item" data-month="10">Ноябрь</button>
+                <button class="month-item" data-month="11">Декабрь</button>
+            </div>
+
+            <!-- Быстрые действия -->
+            <div class="month-year-picker-actions">
+                <button class="picker-action-btn" id="pickerTodayBtn">
+                    <i class="bi bi-calendar-check"></i> Текущий месяц
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

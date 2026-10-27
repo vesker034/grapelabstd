@@ -1,0 +1,419 @@
+/* Настройки по умолчанию (темная тема) */
+:root, [data-bs-theme="dark"] {
+    --clr-background-dark: #0F0824; /* Почти черный фиолетовый фон */
+    --clr-card-dark: rgba(255, 255, 255, 0.05); /* Фон для стеклянных карточек */
+    --clr-border-dark: rgba(255, 255, 255, 0.1); /* Цвет обводки элементов */
+    --clr-text-primary-dark: #FFFFFF; /* Основной белый текст */
+    --clr-text-secondary-dark: #D8BFD8; /* Вторичный текст (сиреневатый) */
+    --clr-accent1-dark: #8E2DE2; /* Яркий фиолетовый акцент */
+    --clr-accent2-dark: #00B4DB; /* Голубой акцент */
+    --clr-accent3-dark: #4A00E0; /* Глубокий фиолетовый */
+
+    /* Градиенты темной темы */
+    --gradient-background-dark: linear-gradient(110deg, #180a34 0%, #2c0c65 50%, #262292 100%); /* Фоновый градиент */
+    --gradient-header-dark: linear-gradient(90deg, #00b4db 0%, #d8bfd8 100%); /* Градиент для текста лого и заголовков */
+    --gradient-button-dark: linear-gradient(128deg, #00b4db 0%, #4a00e0 100%); /* Градиент для кнопок */
+    --gradient-icon-dark: linear-gradient(180deg, #1a9bdc 0%, #5265de 50%, #8139e1 100%); /* Градиент для иконок */
+
+    /* Переоппределяю цвета Bootstrap для темной темы */
+    --bs-body-bg: var(--clr-background-dark);
+    --bs-body-color: var(--clr-text-primary-dark);
+    --bs-border-color-translucent: rgba(255, 255, 255, 0.1); /* Цвет полупрозрачной обводки */
+    --bs-heading-color: var(--clr-text-primary-dark);
+    --bs-secondary-color: var(--clr-text-secondary-dark);
+    --bs-primary: var(--clr-accent1-dark); /* Главный акцентный цвет */
+    --bs-info: var(--clr-accent2-dark);    /* Второстепенный акцентный цвет */
+    --bs-link-color: var(--clr-accent2-dark); /* Цвет ссылок */
+    --bs-link-hover-color: color-mix(in srgb, var(--clr-accent2-dark) 80%, white); /* Цвет ссылок при наведении */
+}
+
+/* Настройки для светлой темы */
+[data-bs-theme="light"] {
+    --clr-background-light: #F5F7FA; /* Очень светлый фон */
+    --clr-card-light: rgba(255, 255, 255, 0.7); /* Фон для "матовых" карточек */
+    --clr-border-light: rgba(0, 0, 0, 0.08); /* Цвет обводки */
+    --clr-text-primary-light: #2D3748; /* Основной темный текст */
+    --clr-text-secondary-light: #4A5568; /* Вторичный серый текст */
+    --clr-accent1-light: #8E2DE2; /* Фиолетовый акцент */
+    --clr-accent2-light: #00B4DB; /* Голубой акцент */
+
+    /* Градиенты светлой темы */
+    --gradient-background-light: linear-gradient(135deg, #FFFFFF 0%, #E4E7EB 100%);
+    --gradient-header-light: linear-gradient(90deg, #00b4db 0%, #8e2de2 100%); /* Для заголовков */
+    --gradient-button-light: linear-gradient(128deg, #00b4db 0%, #4a00e0 100%); /* Для кнопок (оставила как в темной) */
+    --gradient-icon-light: linear-gradient(180deg, #1a9bdc 0%, #5265de 50%, #8139e1 100%); /* Для иконок (оставила как в темной) */
+
+    /* Переопределяем цвета Bootstrap для светлой темы */
+    --bs-body-bg: var(--clr-background-light);
+    --bs-body-color: var(--clr-text-primary-light);
+    --bs-border-color-translucent: rgba(0, 0, 0, 0.08);
+    --bs-heading-color: var(--clr-text-primary-light);
+    --bs-secondary-color: var(--clr-text-secondary-light);
+    --bs-primary: var(--clr-accent1-light);
+    --bs-info: var(--clr-accent2-light);
+    --bs-link-color: var(--clr-accent1-light);
+    --bs-link-hover-color: color-mix(in srgb, var(--clr-accent1-light) 80%, black);
+}
+
+/* базовые стили и элементы */
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    padding-top: 65px; /* Для шапки */
+    background: var(--gradient-background-dark); /* Фон по умолчанию */
+    transition: background 0.3s ease; /* Плавная смена фона */
+}
+
+/* У светлой темы свой фон */
+[data-bs-theme="light"] body {
+    background: var(--gradient-background-light);
+}
+
+/* Настройка шрифтов для заголовков */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; /* Жирные заголовки */
+}
+
+/* Класс для текста с градиентом (заголовки, лого) */
+.gradient-text {
+    background: var(--gradient-header-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block; 
+}
+
+/* Градиентный текст для светлой темы */
+[data-bs-theme="light"] .gradient-text {
+     background: var(--gradient-header-light);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+     color: transparent;
+}
+
+
+/* Класс для иконок (белые в темной, градиент в светлой) */
+.icon-gradient {
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    color: var(--clr-text-primary-dark); /* Делаем белыми по умолчанию (для темной) */
+}
+/* Градиент иконок для светлой темы */
+[data-bs-theme="light"] .icon-gradient {
+     background: var(--gradient-icon-light);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+     color: transparent;
+}
+
+
+/* Стилизация градиентной кнопки */
+.btn-gradient {
+    position: relative; /* Необходимо для позиционирования псевдоэлемента */
+    overflow: hidden;   /* Скрываем псевдоэлемент, когда он за пределами кнопки */
+    z-index: 1;         /* Устанавливаем z-index, чтобы текст был выше псевдоэлемента */
+    background: var(--gradient-button-dark);
+    border: none;
+    border-radius: 50rem; 
+    transition: all 0.3s ease;
+    color: white; /* Текст на кнопке всегда белый */
+    isolation: isolate; /* Создаем новый контекст наложения, чтобы z-index работал как надо */
+}
+/* Градиент кнопки для светлой темы */
+[data-bs-theme="light"] .btn-gradient {
+     background: var(--gradient-button-light);
+}
+
+/* Эффект при наведении на градиентную кнопку */
+.btn-gradient:hover {
+    transform: translateY(-3px); /* Легкий подъем */
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); /* Фиолетовая тень */
+    color: white;
+}
+
+/* Создаем слой для анимации при наведении */
+.btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--clr-accent2-dark); /* бирюзовый цвет */
+    transform: translateX(-100%); /* Изначально скрыт слева */
+    transition: transform 0.4s ease; /* Анимация выдвижения */
+    z-index: -1; /* Располагаем под текстом кнопки */
+}
+
+/* При наведении выдвигаем слой */
+.btn-gradient:hover::before {
+    transform: translateX(0);
+}
+
+/* Эффект "стекла" / Матовый блюр */
+.glass-effect {
+    background: rgba(15, 8, 36, 0.7); /* Полупрозрачный темно-фиолетовый */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Для Safari */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem; /* Скругление */
+}
+
+/* Карточки со "стеклом" (адаптируются к теме) */
+.glass-card {
+    background: var(--clr-card-dark); /* Полупрозрачный фон для темной темы */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--bs-border-color-translucent);
+    border-radius: 1rem; /* Более сильное скругление для карточек */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+/* "Стеклянные" карточки для светлой темы */
+[data-bs-theme="light"] .glass-card {
+    background: var(--clr-card-light); /* Полупрозрачный светлый фон */
+    border: 1px solid var(--bs-border-color-translucent);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); /* Легкая тень на светлом */
+}
+
+/* Эффект приподнимания карточки при наведении */
+.glass-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--bs-primary); /* Подсвечиваем границу акцентным цветом */
+}
+
+
+.main-header {
+    background: var(--clr-background-dark);
+    border-bottom: 1px solid var(--clr-border-dark); /* Используем переменную для обводки */
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.main-header .navbar-brand .logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: var(--gradient-header-dark); /* Логотип всегда с темным градиентом */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Ссылки в шапке всегда светлые */
+.main-header .nav-link {
+    position: relative; 
+    color: var(--clr-text-secondary-dark);
+    font-weight: 400;
+    padding: 0.5rem 0; 
+    margin: 0 1rem;
+    background: none; /* Убедимся, что фона нет */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.main-header .nav-link:hover,
+.main-header .nav-link.active {
+    color: var(--clr-text-primary-dark);
+    transform: scale(1.05); /* Немного увеличиваем текст */
+}
+
+/* Создаем подчеркивание через псевдоэлемент */
+.main-header .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -0.3px; /* Располагаем чуть ниже текста */
+    left: 0;
+    background: var(--gradient-button-dark); /* Используем ваш градиент для кнопок */
+    transform: scaleX(0); 
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+/* Показываем подчеркивание при наведении или для активной ссылки */
+.main-header .nav-link:hover::after,
+.main-header .nav-link.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Футер тоже всегда темный */
+.main-footer {
+    background-color: var(--clr-background-dark);
+    color: var(--clr-text-secondary-dark);
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Логотип в футере */
+.main-footer .logo-text-footer {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: var(--gradient-header-dark); /* Темный градиент */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+/* Иконки соцсетей в футере */
+.main-footer .social-links a {
+    color: var(--clr-text-muted-dark);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.main-footer .social-links a:hover {
+    color: var(--clr-text-primary-dark); /* Становятся белыми при наведении */
+}
+
+/* шарики для обложек*/
+.hero-section {
+    position: relative; /* Нужно для позиционирования шариков */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden; /* Чтобы шарики не вылезали */
+    padding-top: 100px; /* Отступ от шапки */
+}
+
+/* Контент обложки поверх шариков */
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Адаптивный размер главного заголовка */
+.hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem); /* От 2.5rem до 4.5rem в зависимости от ширины экрана */
+    line-height: 1.2;
+}
+
+/* Стили для подзаголовка */
+.hero-subtitle {
+     font-size: clamp(0.5rem, 2.5vw, 1.25rem);
+     max-width: 600px; 
+     margin-left: auto;
+     margin-right: auto;
+     color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .text-secondary {
+    color: var(--clr-text-secondary-dark) !important; 
+}
+/* стили для плавающих шариков */
+.floating-elements-container { 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1; 
+    overflow: hidden;
+}
+
+.floating-element {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(142, 45, 226, 0.1), rgba(0, 180, 219, 0.1));
+    animation: floatAround 15s infinite linear;
+}
+
+.floating-element:nth-child(1) {
+    width: 80px; height: 80px;
+    top: 10%; left: 10%;
+    animation-duration: 20s;
+}
+.floating-element:nth-child(2) {
+    width: 120px; height: 120px;
+    top: 70%; left: 80%;
+    animation-duration: 25s;
+    animation-delay: 2s;
+}
+.floating-element:nth-child(3) {
+    width: 60px; height: 60px;
+    top: 60%; left: 15%;
+    animation-duration: 18s;
+    animation-delay: 4s;
+}
+.floating-element:nth-child(4) {
+    width: 100px; height: 100px;
+    top: 20%; left: 75%;
+    animation-duration: 22s;
+    animation-delay: 1s;
+}
+
+
+@keyframes floatAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 50px) rotate(90deg);
+    }
+    50% {
+        transform: translate(100px, 0) rotate(180deg);
+    }
+    75% {
+        transform: translate(50px, -50px) rotate(270deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
+
+/* Кнопка переключения тем */
+.theme-switcher-btn {
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--clr-text-secondary-dark); /* Иконка всегда светлая, т.к. шапка темная */
+    background: none;
+    border: none;
+    padding: 0.5rem; /* Немного места вокруг иконки */
+}
+.theme-switcher-btn:hover {
+    color: var(--clr-text-primary-dark);
+}
+
+/*стили для шара на главной*/
+#hero-canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Самый нижний слой анимации */
+    opacity: 0.5; /* Полупрозрачность по умолчанию (для темной темы) */
+    transition: opacity 0.3s ease;
+}
+
+/* Прозрачность шара на светлой теме */
+[data-bs-theme="light"] #hero-canvas {
+    opacity: 0.27;
+}
+
+/* --- Стили для анимации при скролле --- */
+
+/* Элементы, которые будут анимироваться, изначально скрыты и сдвинуты вниз */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Когда JS добавляет этот класс, элемент плавно появляется на своем месте */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

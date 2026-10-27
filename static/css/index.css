@@ -1,0 +1,258 @@
+/* --- Стили для Таймлайна --- */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+/* Вертикальная линия */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: var(--gradient-icon-dark); /* Используем градиент для линии */
+}
+.timeline-item {
+    position: relative;
+    width: 50%;
+    margin-bottom: 40px;
+}
+/* Нечетные элементы слева */
+.timeline-item:nth-child(odd) {
+    left: 0;
+    padding-right: 40px;
+    text-align: right;
+}
+/* Четные элементы справа */
+.timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 40px;
+}
+.timeline-dot {
+    position: absolute;
+    top: 15px;
+    width: 16px;
+    height: 16px;
+    background: var(--clr-accent2-dark); /* Используем ваш бирюзовый акцент */
+    border: 3px solid var(--bs-body-bg); /* Цвет фона для эффекта "утопленности" */
+    border-radius: 50%;
+    z-index: 1;
+}
+.timeline-item:nth-child(odd) .timeline-dot { right: -8px; }
+.timeline-item:nth-child(even) .timeline-dot { left: -8px; }
+.timeline-content { text-align: left; }
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .timeline::before { left: 8px; }
+    .timeline-item { width: 100%; padding: 0 !important; margin-bottom: 20px; }
+    .timeline-item:nth-child(odd), .timeline-item:nth-child(even) { left: 0; text-align: left; padding-left: 40px !important; }
+    .timeline-dot { top: 0; }
+    .timeline-item:nth-child(odd) .timeline-dot, .timeline-item:nth-child(even) .timeline-dot { left: 0; }
+}
+
+/* --- СТИЛИ ДЛЯ НОВОГО БЛОКА "ФОТОГАЛЕРЕЯ" --- */
+
+.gallery-section {
+    position: relative;
+    padding-bottom: 4rem; /* Доп. место для пагинации */
+}
+
+/* Контейнер Swiper */
+.gallery-swiper {
+    width: 100%;
+    /* Мы задаем ширину на 100%, а Swiper 
+      сам сделает отступы по бокам благодаря loop: true и centeredSlides: true 
+    */
+}
+
+.gallery-slide {
+    position: relative; /* Для оверлея */
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    /* Задаем соотношение сторон, чтобы все фото были одинаковыми */
+    aspect-ratio: 16 / 10;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Делаем неактивные слайды полупрозрачными */
+.gallery-swiper .swiper-slide:not(.swiper-slide-active) {
+    opacity: 0.6;
+    transform: scale(0.95);
+}
+
+/* Оверлей, который появляется при наведении (Ваша идея) */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Текст внизу */
+    padding: 1.5rem;
+    
+    /* Темный градиент для читаемости текста */
+    background: linear-gradient(0deg, rgba(15, 8, 36, 0.8) 0%, rgba(15, 8, 36, 0) 60%);
+    
+    /* Анимация появления */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease-out;
+}
+
+/* Показываем оверлей при наведении на слайд */
+.gallery-slide:hover .gallery-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gallery-title {
+    font-weight: 800;
+    color: var(--clr-text-primary-dark);
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.gallery-year {
+    font-weight: 500;
+    color: var(--clr-text-secondary-dark); /* Пудровый */
+    margin-bottom: 0.5rem;
+}
+
+.gallery-link {
+    color: var(--clr-accent2-dark); /* Бирюзовый */
+    font-weight: 600;
+    text-decoration: none;
+}
+.gallery-link i {
+    transition: transform 0.3s ease;
+}
+.gallery-link:hover i {
+    transform: translateX(5px);
+}
+
+/* Стили для навигации (стрелки) */
+.gallery-swiper .swiper-button-next,
+.gallery-swiper .swiper-button-prev {
+    color: var(--clr-text-primary-dark); /* Белые стрелки */
+    background: var(--clr-card-dark); /* Стеклянный фон */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+.gallery-swiper .swiper-button-next:hover,
+.gallery-swiper .swiper-button-prev:hover {
+    background: var(--clr-accent2-dark); /* Бирюзовые при наведении */
+    color: white;
+}
+/* Уменьшаем размер иконок внутри стрелок */
+.gallery-swiper .swiper-button-next::after,
+.gallery-swiper .swiper-button-prev::after {
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+/* Стили для пагинации Swiper (точки) */
+.gallery-swiper .swiper-pagination {
+    bottom: 0; /* Располагаем под слайдером */
+    position: absolute; /* Убедимся, что .gallery-section имеет position: relative */
+}
+.gallery-swiper .swiper-pagination-bullet {
+    background: var(--clr-text-secondary-dark);
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+}
+
+.gallery-swiper .swiper-pagination-bullet-active {
+    background: var(--clr-accent2-dark); /* Бирюзовый акцент */
+    opacity: 1;
+    width: 25px;
+    border-radius: 5px;
+}
+/* --- СТИЛИ ДЛЯ НОВОГО БЛОКА "НАПРАВЛЕНИЯ" --- */
+
+
+/* Внешний контейнер-обертка (темный и стеклянный) */
+.directions-container {
+    border-radius: 1.5rem; /* Сильнее скругление для большого блока */
+}
+
+/* Внутренние карточки направлений (обертка) */
+.directions-card {
+    background-color: var(--clr-accent3-dark);
+    border: none;
+    padding: 0;
+    overflow: hidden; 
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.directions-card-header {
+    background: var(--gradient-button-dark); 
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.directions-card-body {
+    background-color: #361a71;
+    padding: 1.5rem;
+    height: 100%; 
+    transition: background-color 0.3s ease;
+}
+
+/* Эффект при наведении на карточку */
+.directions-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Тень приподнятия */
+}
+
+
+[data-bs-theme="light"] .directions-card {
+    /* Убрали фон и border, оставили тень */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+[data-bs-theme="light"] .directions-card-body {
+    background-color: #ffffff; /* Белый фон для текста */
+}
+
+[data-bs-theme="light"] .directions-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+[data-bs-theme="light"] .directions-card:hover .directions-card-body {
+    background-color: #f8f9fa; 
+}
+[data-bs-theme="light"] .directions-container {
+    background-color: transparent;
+    border: linear-gradient( #180a34 0%, #2c0c65 50%, #262292 100%) solid 1px;
+}
+
+/* Стили для карточек направлений на главной */
+.directions-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px; /* Фиксированная высота для блока с иконкой */
+    margin-bottom: 1rem;
+}
+
